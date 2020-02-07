@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -25,7 +26,7 @@ SECRET_KEY = '+9$i)h^u_@!=v2h#t^xd)m=@ws&7p3o1=dth5jt3z21%7$b(&j'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['lambdamudgame.herokuapp.com']
 
 
 # Application definition
@@ -50,7 +51,7 @@ INSTALLED_APPS = [
     'rest_auth.registration',
 ]
 
-SITE_ID=1
+SITE_ID = 1
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
@@ -128,8 +129,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication, TokenAuthentication
-
 REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': [
     #     'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
@@ -141,7 +140,7 @@ REST_FRAMEWORK = {
     ),
 }
 
-CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
