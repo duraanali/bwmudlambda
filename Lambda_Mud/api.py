@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
+from util import create_world
 
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
@@ -14,13 +15,25 @@ import json
 @csrf_exempt
 @api_view(["GET"])
 def initialize(request):
-    user = request.user
-    player = user.player
-    player_id = player.id
-    uuid = player.uuid
-    room = player.room()
-    players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    
+    if request.user.player != None:
+        user = request.user
+        player = user.player
+        player_id = player.id
+        uuid = player.uuid
+        room = player.room()
+        players = room.playerNames(player_id)
+        return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    else:
+        request.user.player = Player(request.user)
+        user = request.user
+        player = user.player
+        player_id = player.id
+        uuid = player.uuid
+        room = player.room()
+        players = room.playerNames(player_id)
+        return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+
 
 
 @csrf_exempt
